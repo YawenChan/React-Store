@@ -12,7 +12,7 @@ const root = createRoot(rootElement);
 root.render(
     <StrictMode>
       <Router />
-    </StrictMode>,
+    </StrictMode>
   );
 
 // ReactDOM.render(<Router/>,document.getElementById('root')) 舊寫法
