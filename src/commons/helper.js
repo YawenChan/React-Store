@@ -5,3 +5,11 @@ formatPrice = cents => {
         currency:'CNY'
     })
 }
+
+export const jsonDataRun = (c) =>{
+    const array =[]
+    for(let i = 0; i < c.length;i ++){
+        array.push({...c[i]})
+    }
+    return array
+}

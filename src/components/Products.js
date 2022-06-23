@@ -1,51 +1,69 @@
-import React from 'react';
-import axios from 'axios';
+import {React,useEffect,useState} from 'react';
+import axios from 'commons/axios';
 import Product from 'components/Product'
 import Toolbox from 'components/Toolbox';
+import { jsonDataRun } from 'commons/helper';
 
-class Products extends React.Component {
 
-    state = {
-        products : [],
-    }
 
-    componentDidMount() {
-        axios.get('http://localhost:3003/products').then(response => {
-            // console.log(response)
-            this.setState({
-                products:response.data
-            })
+
+function Products(props) {
+    const[getData,setGetData] = useState(jsonDataRun(jsonDataRun));
+    useEffect(() =>{
+        axios.get('http://localhost:3003/products').then((response)=>{
+            setGetData(response.data)
         })
+    },[])
+
+    const search = text =>{
+        // console.log(text);
+        let searchResults = [...getData]
+        // console.log(searchResults)
+        searchResults = searchResults.filter(p => {
+             const matchArray = p.name.match(new RegExp(text, 'gi'))
+             console.log(matchArray)
+
+             return(
+                 !!matchArray
+             ) 
+            
+        })
+        setGetData(searchResults)
+        console.log(getData);
     }
 
-    render(){
-        // console.log(this.product.name)
-        return(
-            <div>
-                <Toolbox/>
-                <div className='products'>
-                <div className="columns is-multiline is-desktop">
-                {
-                    this.state.products.map( p =>{
-                        return(
-                            <div className="column is-3" key={p.id}>
-                                <Product
-                                    product={p}
-                                />
-                            </div>
-                        )
-                    }
+  return (
+    <>
+    <div>
+        <Toolbox
+            search={search}
+        />
+        <div className='products'>
+            <div className="columns is-multiline is-desktop">
+            {
+            getData.map( p =>{
+                return(
+                    <div className="column is-3" key={p.id}>
+                        <Product
+                            product={p}
+                        />
+                    </div>
                     )
                 }
-                </div>
-                    
-
-                </div>
-
+                )
+            }
             </div>
+        </div>
+    </div>
 
-        )
-    }
+    </>
+  )
 }
 
-export default Products;
+Products.propTypes = {}
+
+export default Products
+
+
+
+
