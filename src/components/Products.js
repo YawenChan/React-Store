@@ -1,4 +1,4 @@
-import {React,useEffect,useState} from 'react';
+import {React,useEffect,useState,useRef} from 'react';
 import axios from 'commons/axios';
 import {TransitionGroup,CSSTransition} from 'react-transition-group'
 import Product from 'components/Product'
@@ -34,11 +34,14 @@ function Products(props) {
         setGetData(searchResults)
         // console.log(getData);
     }
+    const childRef = useRef(null);
     const toAdd =()=>{
-        console.log(Panel)
+        childRef.current.open()
+        
     }
   return (
     <>
+    <Panel ref={childRef}/>
     <div>
         <Toolbox
             search={search}
